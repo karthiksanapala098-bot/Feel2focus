@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feel2focus | Neural OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --olive: #65a30d;
+            --lime: #bef264;
+            --black: #000000;
+            --glass-bg: rgba(10, 15, 10, 0.4);
+            --glass-border: rgba(190, 242, 100, 0.15);
+        }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow-x: hidden;
+            background: var(--black);
+            color: #f8fafc;
+        }
+
+        .mono { font-family: 'Space Mono', monospace; }
+
+        /* Liquid Ether Background */
+        .liquid-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 100%, #064e3b 0%, #000000 100%);
+            overflow: hidden;
+        }
+        
+        .ether-layer {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at center, rgba(163, 230, 53, 0.08) 0%, transparent 40%);
+            animation: ether-drift 40s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes ether-drift {
+            0% { transform: rotate(0deg) translate(0, 0); }
+            50% { transform: rotate(180deg) translate(-5%, 5%); }
+            100% { transform: rotate(360deg) translate(0, 0); }
+        }
+
+        /* Glassmorphism Evolution */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-highlight {
+            background: rgba(190, 242, 100, 0.05);
+            border: 1px solid rgba(190, 242, 100, 0.3);
+            box-shadow: 0 0 20px rgba(190, 242, 100, 0.1);
+        }
+
+        /* Grid Scan - Tactical Overlay */
+        .grid-scan {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-size: 60px 60px;
+            background-image: 
+                linear-gradient(to right, rgba(190, 242, 100, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(190, 242, 100, 0.04) 1px, transparent 1px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to bottom, transparent, rgba(190, 242, 100, 0.15), transparent);
+            animation: scan-move 12s linear infinite;
+        }
+
+        @keyframes scan-move {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        /* Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.25;
+            transition: all 1s ease;
+        }
+
+        .orb-primary { width: 600px; height: 600px; background: var(--lime); top: -20%; right: -10%; }
+        .orb-secondary { width: 700px; height: 700px; background: var(--olive); bottom: -20%; left: -10%; }
+
+        /* Typography Highlights */
+        .highlight-text {
+            color: var(--lime);
+            text-shadow: 0 0 15px rgba(190, 242, 100, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(190, 242, 100, 0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(190, 242, 100, 0.4); }
+
+        /* Liquid Progress Fill */
+        .liquid-fill {
+            background: linear-gradient(180deg, var(--lime) 0%, var(--primary) 100%);
+            box-shadow: 0 0 20px rgba(190, 242, 100, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .liquid-fill::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 38%;
+            animation: rotate-liquid 4s linear infinite;
+        }
+
+        @keyframes rotate-liquid {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Nav Micro-animations */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--lime);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Card Swipe Logic */
+        .swipe-card {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+        .swipe-card:hover {
+            transform: scale(1.03) translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(190, 242, 100, 0.1);
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "framer-motion": "https://esm.sh/framer-motion@^11.0.8"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div class="liquid-bg">
+        <div class="ether-layer"></div>
+        <div class="orb orb-primary"></div>
+        <div class="orb orb-secondary"></div>
+    </div>
+    <div class="grid-scan">
+        <div class="scan-line"></div>
+    </div>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "Feel2focus",
+  "description": "An energy-based smart study planner that adapts to your mood and focus levels to optimize learning sessions.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
